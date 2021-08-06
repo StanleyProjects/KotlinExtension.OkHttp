@@ -9,5 +9,6 @@ application {
 }
 
 dependencies {
-//    implementation(project(":lib"))
+    implementation(project(":lib"))
+    implementation(D.okhttp)
 }

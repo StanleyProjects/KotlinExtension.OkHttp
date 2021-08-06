@@ -4,6 +4,7 @@ import sp.kx.gradle.entity.plugin
 object Version {
     const val kotlin = "1.4.20"
     const val name = "0.0.1"
+    const val okhttp = "4.9.0"
 }
 
 object Group {
@@ -21,6 +22,11 @@ object D {
         group = Group.kotlin,
         name = "kotlin-stdlib",
         version = Version.kotlin
+    )
+    val okhttp = dependency(
+        group = "com.squareup.okhttp3",
+        name = "okhttp",
+        version = Version.okhttp
     )
 }
 
