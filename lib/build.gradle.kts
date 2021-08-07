@@ -52,3 +52,9 @@ compileKotlin.kotlinOptions {
         }
     }
 }
+
+task("getVersionName") {
+    doLast {
+        println(Version.name)
+    }
+}

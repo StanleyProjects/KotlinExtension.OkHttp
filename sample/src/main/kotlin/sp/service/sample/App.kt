@@ -1,6 +1,8 @@
 package sp.service.sample
 
 import java.util.concurrent.TimeUnit
+import okhttp3.CacheControl
+import sp.kx.okhttp.clone
 import sp.kx.okhttp.execute
 import sp.kx.okhttp.httpUrl
 import sp.kx.okhttp.okHttpClient
@@ -11,7 +13,10 @@ fun main() {
         readTimeout = 30L to TimeUnit.SECONDS,
         writeTimeout = 30L to TimeUnit.SECONDS,
         interceptor = {
-            it.proceed(it.request())
+            val request = it.request().clone {
+                cacheControl(CacheControl.FORCE_NETWORK)
+            }
+            it.proceed(request)
         }
     )
     val response = client.execute {

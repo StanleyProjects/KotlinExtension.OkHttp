@@ -21,3 +21,11 @@ fun request(builder: Request.Builder.() -> Unit): Request {
 fun request(headers: Map<String, String>): Request {
     return requestBuilder(headers).build()
 }
+
+fun Request.newBuilder(builder: Request.Builder.() -> Unit): Request.Builder {
+    return newBuilder().also(builder)
+}
+
+fun Request.clone(builder: Request.Builder.() -> Unit): Request {
+    return newBuilder(builder).build()
+}
