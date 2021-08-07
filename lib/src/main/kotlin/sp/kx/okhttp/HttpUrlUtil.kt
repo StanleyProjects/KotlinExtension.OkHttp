@@ -18,3 +18,11 @@ fun httpUrl(url: String, queries: Map<String, String>): HttpUrl {
         }
     }
 }
+
+fun HttpUrl.newBuilder(builder: HttpUrl.Builder.() -> Unit): HttpUrl.Builder {
+    return newBuilder().also(builder)
+}
+
+fun HttpUrl.clone(builder: HttpUrl.Builder.() -> Unit): HttpUrl {
+    return newBuilder(builder).build()
+}
