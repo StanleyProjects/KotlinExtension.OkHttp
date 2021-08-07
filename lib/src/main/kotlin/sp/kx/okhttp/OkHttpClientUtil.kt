@@ -35,6 +35,14 @@ fun OkHttpClient.newCall(
     return newCall(request(buildRequest))
 }
 
+fun OkHttpClient.newCall(
+    url: String,
+    queries: Map<String, String>,
+    headers: Map<String, String>
+): Call {
+    return newCall(request(url = url, queries = queries, headers = headers))
+}
+
 fun OkHttpClient.execute(
     buildRequest: Request.Builder.() -> Unit
 ): Response {
