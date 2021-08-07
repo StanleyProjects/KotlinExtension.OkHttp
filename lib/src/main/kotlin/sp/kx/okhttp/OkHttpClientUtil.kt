@@ -1,30 +1,42 @@
 package sp.kx.okhttp
 
-import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrl
+import java.util.concurrent.TimeUnit
+import okhttp3.Call
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-fun OkHttpClient.execute(
+fun okHttpClientBuilder(builder: OkHttpClient.Builder.() -> Unit): OkHttpClient.Builder {
+    return OkHttpClient.Builder().also(builder)
+}
+
+fun okHttpClient(builder: OkHttpClient.Builder.() -> Unit): OkHttpClient {
+    return okHttpClientBuilder(builder).build()
+}
+
+fun okHttpClient(
+    connectTimeout: Pair<Long, TimeUnit>,
+    readTimeout: Pair<Long, TimeUnit>,
+    writeTimeout: Pair<Long, TimeUnit>,
+    interceptor: (Interceptor.Chain) -> Response
+): OkHttpClient {
+    return okHttpClient {
+        connectTimeout(connectTimeout.first, connectTimeout.second)
+        readTimeout(readTimeout.first, readTimeout.second)
+        writeTimeout(writeTimeout.first, writeTimeout.second)
+        addInterceptor(interceptor)
+    }
+}
+
+fun OkHttpClient.newCall(
     buildRequest: Request.Builder.() -> Unit
-): Response {
-    val requestBuilder = Request.Builder().also(buildRequest)
-    val request = requestBuilder.build()
-    val call = newCall(request)
-    return call.execute()
+): Call {
+    return newCall(request(buildRequest))
 }
 
 fun OkHttpClient.execute(
-    httpUrl: HttpUrl,
-    buildHttpUrl: HttpUrl.Builder.() -> Unit,
     buildRequest: Request.Builder.() -> Unit
 ): Response {
-    val httpUrlBuilder = httpUrl.newBuilder().also(buildHttpUrl)
-    return execute(
-        buildRequest = {
-            url(httpUrlBuilder.build())
-            also(buildRequest)
-        }
-    )
+    return newCall(buildRequest).execute()
 }
