@@ -120,6 +120,38 @@ internal class RequestUtilTest {
     }
 
     @Test
+    fun requestBuilderUrlHeadersBodyTest() {
+        val url = "https://github.com/"
+        val headers = mapOf("baz" to "qux")
+        val method = Method.POST
+        val body = "body".toRequestBody()
+        val request = requestBuilder(
+            url = url,
+            headers = headers,
+            method = method,
+            body = body
+        ).build()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
+        assertEquals(request.method, method.name)
+        assertTrue(request.body === body) {
+            "It is not the same object!"
+        }
+    }
+
+    @Test
+    fun requestBuilderUrlHeadersTest() {
+        val url = "https://github.com/"
+        val headers = mapOf("baz" to "qux")
+        val request = requestBuilder(
+            url = url,
+            headers = headers
+        ).build()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
+    }
+
+    @Test
     fun requestUrlQueriesHeadersBodyTest() {
         val url = "https://github.com/"
         val queries = mapOf("foo" to "bar")
@@ -140,5 +172,37 @@ internal class RequestUtilTest {
         assertTrue(request.body === body) {
             "It is not the same object!"
         }
+    }
+
+    @Test
+    fun requestUrlHeadersBodyTest() {
+        val url = "https://github.com/"
+        val headers = mapOf("baz" to "qux")
+        val method = Method.POST
+        val body = "body".toRequestBody()
+        val request = request(
+            url = url,
+            headers = headers,
+            method = method,
+            body = body
+        )
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
+        assertEquals(request.method, method.name)
+        assertTrue(request.body === body) {
+            "It is not the same object!"
+        }
+    }
+
+    @Test
+    fun requestUrlHeadersTest() {
+        val url = "https://github.com/"
+        val headers = mapOf("baz" to "qux")
+        val request = request(
+            url = url,
+            headers = headers
+        )
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
     }
 }

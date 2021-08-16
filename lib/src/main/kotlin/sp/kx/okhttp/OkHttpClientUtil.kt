@@ -5,6 +5,7 @@ import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.Response
 
 fun okHttpClientBuilder(builder: OkHttpClient.Builder.() -> Unit): OkHttpClient.Builder {
@@ -37,10 +38,51 @@ fun OkHttpClient.newCall(
 
 fun OkHttpClient.newCall(
     url: String,
+    headers: Map<String, String>
+): Call {
+    return newCall(request(url = url, headers = headers))
+}
+
+fun OkHttpClient.newCall(
+    url: String,
     queries: Map<String, String>,
     headers: Map<String, String>
 ): Call {
     return newCall(request(url = url, queries = queries, headers = headers))
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    queries: Map<String, String>,
+    headers: Map<String, String>,
+    method: Method,
+    body: RequestBody
+): Call {
+    return newCall(
+        request(
+            url = url,
+            queries = queries,
+            headers = headers,
+            method = method,
+            body = body
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    headers: Map<String, String>,
+    method: Method,
+    body: RequestBody
+): Call {
+    return newCall(
+        request(
+            url = url,
+            headers = headers,
+            method = method,
+            body = body
+        )
+    )
 }
 
 fun OkHttpClient.execute(
