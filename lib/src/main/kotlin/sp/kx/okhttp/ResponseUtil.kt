@@ -34,3 +34,9 @@ fun Response.requireHeader(key: String): String {
         "Header by key \"$key\" does not exists!"
     }
 }
+
+fun Response.getCodeAndClose(): Int {
+    val result = code
+    close()
+    return result
+}

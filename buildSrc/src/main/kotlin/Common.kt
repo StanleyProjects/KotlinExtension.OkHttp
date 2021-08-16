@@ -5,7 +5,7 @@ object Version {
     const val jupiter = "5.6.2"
     const val jvmTarget = "1.8"
     const val kotlin = "1.4.20"
-    const val name = "0.0.8"
+    const val name = "0.0.9"
     const val okhttp = "4.9.0"
 }
 
