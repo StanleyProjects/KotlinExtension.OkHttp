@@ -189,6 +189,7 @@ internal class RequestUtilTest {
             pathSegment = pathSegment
         ).build()
         assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
+        assertHeaders(headers = emptyMap(), request = request)
     }
 
     @Test
@@ -200,6 +201,20 @@ internal class RequestUtilTest {
             headers = headers
         ).build()
         assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
+    }
+
+    @Test
+    fun requestBuilderUrlPathSegmentHeadersTest() {
+        val url = "https://github.com/"
+        val pathSegment = "baz"
+        val headers = mapOf("baz" to "qux")
+        val request = requestBuilder(
+            url = url,
+            pathSegment = pathSegment,
+            headers = headers
+        ).build()
+        assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
         assertHeaders(headers = headers, request = request)
     }
 
@@ -294,6 +309,7 @@ internal class RequestUtilTest {
             pathSegment = pathSegment
         )
         assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
+        assertHeaders(headers = emptyMap(), request = request)
     }
 
     @Test
@@ -305,6 +321,20 @@ internal class RequestUtilTest {
             headers = headers
         )
         assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
+    }
+
+    @Test
+    fun requestUrlPathSegmentHeadersTest() {
+        val url = "https://github.com/"
+        val pathSegment = "baz"
+        val headers = mapOf("baz" to "qux")
+        val request = request(
+            url = url,
+            pathSegment = pathSegment,
+            headers = headers
+        )
+        assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
         assertHeaders(headers = headers, request = request)
     }
 }

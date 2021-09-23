@@ -44,6 +44,10 @@ fun OkHttpClient.newCall(url: String, headers: Map<String, String>): Call {
     return newCall(request(url = url, headers = headers))
 }
 
+fun OkHttpClient.newCall(url: String, pathSegment: String, headers: Map<String, String>): Call {
+    return newCall(request(url = url, pathSegment = pathSegment, headers = headers))
+}
+
 fun OkHttpClient.newCall(
     url: String,
     queries: Map<String, String>,

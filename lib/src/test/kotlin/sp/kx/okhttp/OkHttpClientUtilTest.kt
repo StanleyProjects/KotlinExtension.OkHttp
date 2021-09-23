@@ -194,6 +194,7 @@ internal class OkHttpClientUtilTest {
         )
         val request = call.request()
         assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
+        assertHeaders(headers = emptyMap(), request = request)
     }
 
     @Test
@@ -206,6 +207,21 @@ internal class OkHttpClientUtilTest {
         )
         val request = call.request()
         assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = headers, request = request)
+    }
+
+    @Test
+    fun newCallUrlPathSegmentHeadersTest() {
+        val url = "https://github.com/"
+        val pathSegment = "baz"
+        val headers = mapOf("baz" to "qux")
+        val call = OkHttpClient().newCall(
+            url = url,
+            pathSegment = pathSegment,
+            headers = headers
+        )
+        val request = call.request()
+        assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
         assertHeaders(headers = headers, request = request)
     }
 }

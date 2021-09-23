@@ -41,6 +41,15 @@ fun requestBuilder(url: String, headers: Map<String, String>): Request.Builder {
     }
 }
 
+fun requestBuilder(url: String, pathSegment: String, headers: Map<String, String>): Request.Builder {
+    return requestBuilder {
+        url(httpUrl(url = url, pathSegment = pathSegment))
+        headers.forEach { (key, value) ->
+            addHeader(key, value)
+        }
+    }
+}
+
 fun requestBuilder(
     url: String,
     queries: Map<String, String>,
@@ -129,6 +138,10 @@ fun request(url: String, pathSegment: String): Request {
 
 fun request(url: String, headers: Map<String, String>): Request {
     return requestBuilder(url = url, headers = headers).build()
+}
+
+fun request(url: String, pathSegment: String, headers: Map<String, String>): Request {
+    return requestBuilder(url = url, pathSegment = pathSegment, headers = headers).build()
 }
 
 fun request(
