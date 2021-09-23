@@ -87,6 +87,20 @@ fun OkHttpClient.newCall(
 
 fun OkHttpClient.newCall(
     url: String,
+    method: Method,
+    body: RequestBody
+): Call {
+    return newCall(
+        request(
+            url = url,
+            method = method,
+            body = body
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
     headers: Map<String, String>,
     method: Method,
     body: RequestBody

@@ -142,6 +142,24 @@ internal class RequestUtilTest {
     }
 
     @Test
+    fun requestBuilderUrlBodyTest() {
+        val url = "https://github.com/"
+        val method = Method.POST
+        val body = "body".toRequestBody()
+        val request = requestBuilder(
+            url = url,
+            method = method,
+            body = body
+        ).build()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = emptyMap(), request = request)
+        assertEquals(request.method, method.name)
+        assertTrue(request.body === body) {
+            "It is not the same object!"
+        }
+    }
+
+    @Test
     fun requestBuilderUrlHeadersBodyTest() {
         val url = "https://github.com/"
         val headers = mapOf("baz" to "qux")
@@ -215,6 +233,24 @@ internal class RequestUtilTest {
         val body = assertNotNull(request.body)
         assertEquals(body.contentLength(), 0L)
         assertNull(body.contentType())
+    }
+
+    @Test
+    fun requestUrlBodyTest() {
+        val url = "https://github.com/"
+        val method = Method.POST
+        val body = "body".toRequestBody()
+        val request = request(
+            url = url,
+            method = method,
+            body = body
+        )
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = emptyMap(), request = request)
+        assertEquals(request.method, method.name)
+        assertTrue(request.body === body) {
+            "It is not the same object!"
+        }
     }
 
     @Test

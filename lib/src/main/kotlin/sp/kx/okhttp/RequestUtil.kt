@@ -50,6 +50,19 @@ fun requestBuilder(
 
 fun requestBuilder(
     url: String,
+    method: Method,
+    body: RequestBody
+): Request.Builder {
+    return requestBuilder {
+        url(url.toHttpUrl())
+        when (method) {
+            Method.POST -> post(body)
+        }
+    }
+}
+
+fun requestBuilder(
+    url: String,
     headers: Map<String, String>,
     method: Method,
     body: RequestBody
@@ -114,6 +127,18 @@ fun request(
     headers: Map<String, String>
 ): Request {
     return requestBuilder(url = url, queries = queries, headers = headers).build()
+}
+
+fun request(
+    url: String,
+    method: Method,
+    body: RequestBody
+): Request {
+    return requestBuilder(
+        url = url,
+        method = method,
+        body = body
+    ).build()
 }
 
 fun request(

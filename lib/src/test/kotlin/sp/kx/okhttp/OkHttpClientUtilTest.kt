@@ -129,6 +129,25 @@ internal class OkHttpClientUtilTest {
     }
 
     @Test
+    fun newCallUrlBodyTest() {
+        val url = "https://github.com/"
+        val method = Method.POST
+        val body = "body".toRequestBody()
+        val call = OkHttpClient().newCall(
+            url = url,
+            method = method,
+            body = body
+        )
+        val request = call.request()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = emptyMap(), request = request)
+        assertEquals(request.method, method.name)
+        assertTrue(request.body === body) {
+            "It is not the same object!"
+        }
+    }
+
+    @Test
     fun newCallUrlHeadersBodyTest() {
         val url = "https://github.com/"
         val headers = mapOf("baz" to "qux")
