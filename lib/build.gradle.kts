@@ -2,6 +2,7 @@ repositories.mavenCentral()
 
 plugins {
     apply(P.kotlinJvm)
+    id("org.gradle.jacoco")
 }
 
 project.version = Version.name
@@ -14,6 +15,28 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+tasks.getByName<JacocoReport>("jacocoTestReport") {
+    reports {
+        xml.isEnabled = false
+        html.isEnabled = true
+        csv.isEnabled = false
+    }
+}
+
+tasks.getByName<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    violationRules {
+        rule {
+            limit {
+                minimum = BigDecimal(0.9)
+            }
+        }
+    }
 }
 
 val groupId = "com.github.kepocnhh"
