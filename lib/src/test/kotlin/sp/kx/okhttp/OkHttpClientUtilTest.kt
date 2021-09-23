@@ -8,6 +8,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class OkHttpClientUtilTest {
@@ -103,6 +104,28 @@ internal class OkHttpClientUtilTest {
         assertTrue(request.body === body) {
             "It is not the same object!"
         }
+    }
+
+    @Test
+    fun newCallUrlQueriesHeadersMethodTest() {
+        val url = "https://github.com/"
+        val queries = mapOf("foo" to "bar")
+        val headers = mapOf("baz" to "qux")
+        val method = Method.POST
+        val call = OkHttpClient().newCall(
+            url = url,
+            queries = queries,
+            headers = headers,
+            method = method
+        )
+        val request = call.request()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertQueries(queries = queries, request = request)
+        assertHeaders(headers = headers, request = request)
+        assertEquals(request.method, method.name)
+        val body = assertNotNull(request.body)
+        assertEquals(body.contentLength(), 0L)
+        assertNull(body.contentType())
     }
 
     @Test
