@@ -169,6 +169,27 @@ internal class OkHttpClientUtilTest {
     }
 
     @Test
+    fun newCallUrlHeaderBodyTest() {
+        val url = "https://github.com/"
+        val header = "baz" to "qux"
+        val method = Method.POST
+        val body = "body".toRequestBody()
+        val call = OkHttpClient().newCall(
+            url = url,
+            header = header,
+            method = method,
+            body = body
+        )
+        val request = call.request()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = mapOf(header), request = request)
+        assertEquals(request.method, method.name)
+        assertTrue(request.body === body) {
+            "It is not the same object!"
+        }
+    }
+
+    @Test
     fun newCallUrlQueriesHeadersTest() {
         val url = "https://github.com/"
         val queries = mapOf("foo" to "bar")
@@ -182,6 +203,22 @@ internal class OkHttpClientUtilTest {
         assertSame(expected = URL(url), actual = request.url.toUrl())
         assertQueries(queries = queries, request = request)
         assertHeaders(headers = headers, request = request)
+    }
+
+    @Test
+    fun newCallUrlQueriesHeaderTest() {
+        val url = "https://github.com/"
+        val queries = mapOf("foo" to "bar")
+        val header = "baz" to "qux"
+        val call = OkHttpClient().newCall(
+            url = url,
+            queries = queries,
+            header = header
+        )
+        val request = call.request()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertQueries(queries = queries, request = request)
+        assertHeaders(headers = mapOf(header), request = request)
     }
 
     @Test
@@ -208,6 +245,19 @@ internal class OkHttpClientUtilTest {
         val request = call.request()
         assertSame(expected = URL(url), actual = request.url.toUrl())
         assertHeaders(headers = headers, request = request)
+    }
+
+    @Test
+    fun newCallUrlHeaderTest() {
+        val url = "https://github.com/"
+        val header = "baz" to "qux"
+        val call = OkHttpClient().newCall(
+            url = url,
+            header = header
+        )
+        val request = call.request()
+        assertSame(expected = URL(url), actual = request.url.toUrl())
+        assertHeaders(headers = mapOf(header), request = request)
     }
 
     @Test
