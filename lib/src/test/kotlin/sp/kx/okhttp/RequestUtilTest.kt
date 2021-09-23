@@ -62,6 +62,7 @@ internal class RequestUtilTest {
     private fun assertSame(expected: URL, actual: URL) {
         assertEquals(expected.host, actual.host)
         assertEquals(expected.protocol, actual.protocol)
+        assertEquals(expected.path, actual.path)
     }
 
     private fun assertQueries(queries: Map<String, String>, request: Request) {
@@ -180,6 +181,17 @@ internal class RequestUtilTest {
     }
 
     @Test
+    fun requestBuilderUrlPathSegmentTest() {
+        val url = "https://github.com/"
+        val pathSegment = "baz"
+        val request = requestBuilder(
+            url = url,
+            pathSegment = pathSegment
+        ).build()
+        assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
+    }
+
+    @Test
     fun requestBuilderUrlHeadersTest() {
         val url = "https://github.com/"
         val headers = mapOf("baz" to "qux")
@@ -271,6 +283,17 @@ internal class RequestUtilTest {
         assertTrue(request.body === body) {
             "It is not the same object!"
         }
+    }
+
+    @Test
+    fun requestUrlPathSegmentTest() {
+        val url = "https://github.com/"
+        val pathSegment = "baz"
+        val request = request(
+            url = url,
+            pathSegment = pathSegment
+        )
+        assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
     }
 
     @Test

@@ -19,6 +19,12 @@ fun httpUrl(url: String, queries: Map<String, String>): HttpUrl {
     }
 }
 
+fun httpUrl(url: String, pathSegment: String): HttpUrl {
+    return url.toHttpUrl().build {
+        addPathSegment(pathSegment)
+    }
+}
+
 fun HttpUrl.clone(builder: HttpUrl.Builder.() -> Unit): HttpUrl {
     return newBuilder(builder).build()
 }

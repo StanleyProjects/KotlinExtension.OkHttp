@@ -26,6 +26,12 @@ fun requestBuilder(builder: Request.Builder.() -> Unit): Request.Builder {
     return Request.Builder().also(builder)
 }
 
+fun requestBuilder(url: String, pathSegment: String): Request.Builder {
+    return requestBuilder {
+        url(httpUrl(url = url, pathSegment = pathSegment))
+    }
+}
+
 fun requestBuilder(url: String, headers: Map<String, String>): Request.Builder {
     return requestBuilder {
         url(url.toHttpUrl())
@@ -115,6 +121,10 @@ fun requestBuilder(
 
 fun request(builder: Request.Builder.() -> Unit): Request {
     return Request.Builder().also(builder).build()
+}
+
+fun request(url: String, pathSegment: String): Request {
+    return requestBuilder(url = url, pathSegment = pathSegment).build()
 }
 
 fun request(url: String, headers: Map<String, String>): Request {

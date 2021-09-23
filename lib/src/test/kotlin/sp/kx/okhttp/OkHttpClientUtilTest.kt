@@ -185,6 +185,18 @@ internal class OkHttpClientUtilTest {
     }
 
     @Test
+    fun newCallUrlPathSegmentTest() {
+        val url = "https://github.com/"
+        val pathSegment = "baz"
+        val call = OkHttpClient().newCall(
+            url = url,
+            pathSegment = pathSegment
+        )
+        val request = call.request()
+        assertSame(expected = URL("$url$pathSegment"), actual = request.url.toUrl())
+    }
+
+    @Test
     fun newCallUrlHeadersTest() {
         val url = "https://github.com/"
         val headers = mapOf("baz" to "qux")
