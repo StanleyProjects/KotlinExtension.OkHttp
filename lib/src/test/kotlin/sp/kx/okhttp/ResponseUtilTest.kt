@@ -4,6 +4,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -11,6 +12,24 @@ import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
 internal class ResponseUtilTest {
+    companion object {
+        fun testResponse(
+            request: Request,
+            code: Int = 200,
+            body: ResponseBody = "test_response".toResponseBody(),
+            protocol: Protocol = Protocol.HTTP_1_1,
+            message: String = "test response message"
+        ): Response {
+            return Response.Builder()
+                .protocol(protocol)
+                .message(message)
+                .request(request)
+                .code(code)
+                .body(body)
+                .build()
+        }
+    }
+
     @Test
     fun getCodeAndCloseTest() {
         val code = 500
