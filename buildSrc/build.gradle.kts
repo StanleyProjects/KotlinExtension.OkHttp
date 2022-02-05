@@ -1,16 +1,13 @@
+repositories.mavenCentral()
+
 plugins {
-    id("org.gradle.kotlin.kotlin-dsl") version "1.4.9"
+    id("org.gradle.kotlin.kotlin-dsl") version "2.1.7"
 }
 
-repositories {
-    mavenCentral()
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
+tasks.getByName<JavaCompile>("compileJava") {
+    targetCompatibility = "1.8"
 }
 
-dependencies {
-    implementation(
-        group = "com.github.kepocnhh",
-        name = "KotlinExtension.GradleUtil",
-        version = "0.0.2-SNAPSHOT"
-    )
+tasks.getByName<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+    kotlinOptions.jvmTarget = "1.8"
 }

@@ -1,3 +1,3 @@
 rootProject.name = "KotlinExtension.OkHttp"
 
-include("lib", "sample")
+include("lib")

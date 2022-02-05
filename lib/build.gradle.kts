@@ -1,35 +1,56 @@
 repositories.mavenCentral()
 
 plugins {
-    apply(P.kotlinJvm)
+    id("org.jetbrains.kotlin.jvm")
     id("org.gradle.jacoco")
 }
 
 project.version = Version.name
 
 dependencies {
-    implementation(D.okhttp)
-    testImplementation(D.jupiterApi)
-    testRuntimeOnly(D.jupiterEngine)
+    implementation("com.squareup.okhttp3:okhttp:${Version.okhttp}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${Version.jupiter}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Version.jupiter}")
 }
 
-tasks.withType<Test> {
+tasks.getByName<JavaCompile>("compileJava") {
+    targetCompatibility = Version.jvmTarget
+}
+
+val compileKotlinTask = tasks.getByName<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+    kotlinOptions {
+        jvmTarget = Version.jvmTarget
+        freeCompilerArgs = freeCompilerArgs + setOf("-module-name", Maven.groupId + ":" + Maven.artifactId)
+    }
+}
+
+tasks.getByName<JavaCompile>("compileTestJava") {
+    targetCompatibility = Version.jvmTarget
+}
+
+tasks.getByName<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileTestKotlin") {
+    kotlinOptions.jvmTarget = Version.jvmTarget
+}
+
+val testTask = tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = Version.jacoco
 }
 
-tasks.getByName<JacocoReport>("jacocoTestReport") {
+val testCoverageTask = tasks.getByName<JacocoReport>("jacocoTestReport") {
+    dependsOn(testTask)
     reports {
-        xml.isEnabled = false
-        html.isEnabled = true
-        csv.isEnabled = false
+        csv.required.set(false)
+        html.required.set(true)
+        xml.required.set(false)
     }
 }
 
 tasks.getByName<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    dependsOn(testCoverageTask)
     violationRules {
         rule {
             limit {
@@ -39,45 +60,34 @@ tasks.getByName<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     }
 }
 
-val groupId = "com.github.kepocnhh"
-val artifactId = rootProject.name
-
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = Version.jvmTarget
-    freeCompilerArgs = freeCompilerArgs + setOf("-module-name", "$groupId:$artifactId")
-}
-
-"Snapshot".also { type ->
-    val versionName = project.version.toString() + "-SNAPSHOT"
-    task<Jar>("assemble$type") {
-        dependsOn(compileKotlin)
-        archiveBaseName.set(artifactId)
+"Snapshot".also { variant ->
+    val versionName = Version.name + "-" + variant.toUpperCase()
+    task<Jar>("assemble${variant}Jar") {
+        dependsOn(compileKotlinTask)
+        archiveBaseName.set(Maven.artifactId)
         archiveVersion.set(versionName)
-        from(compileKotlin.destinationDir)
+        from(compileKotlinTask.destinationDirectory.asFileTree)
     }
-    task("assemble${type}Pom") {
+    task<Jar>("assemble${variant}Source") {
+        archiveBaseName.set(Maven.artifactId)
+        archiveVersion.set(versionName)
+        archiveClassifier.set("sources")
+        from("src/main")
+    }
+    task("assemble${variant}Pom") {
         doLast {
             val parent = File(buildDir, "libs")
             if (!parent.exists()) parent.mkdirs()
-            val file = File(parent, "$artifactId-$versionName.pom")
+            val file = File(parent, "${Maven.artifactId}-$versionName.pom")
             if (file.exists()) file.delete()
-            file.createNewFile()
-            check(file.exists()) { "File by path: ${file.absolutePath} must be exists!" }
             val text = MavenUtil.pom(
                 modelVersion = "4.0.0",
-                groupId = groupId,
-                artifactId = artifactId,
+                groupId = Maven.groupId,
+                artifactId = Maven.artifactId,
                 version = versionName,
                 packaging = "jar"
             )
             file.writeText(text)
         }
-    }
-}
-
-task("getVersionName") {
-    doLast {
-        println(Version.name)
     }
 }
