@@ -2,12 +2,12 @@ package sp.kx.okhttp
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import java.net.URL
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import java.net.URL
 
 class CallUtilTest {
     companion object {
