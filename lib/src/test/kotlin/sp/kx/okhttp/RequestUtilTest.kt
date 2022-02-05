@@ -1,6 +1,5 @@
 package sp.kx.okhttp
 
-import java.net.URL
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.net.URL
 
 internal fun assertSame(expected: URL, actual: URL) {
     assertEquals(expected.host, actual.host)

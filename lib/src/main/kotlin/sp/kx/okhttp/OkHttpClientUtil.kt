@@ -1,12 +1,12 @@
 package sp.kx.okhttp
 
-import java.util.concurrent.TimeUnit
 import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
+import java.util.concurrent.TimeUnit
 
 fun okHttpClientBuilder(builder: OkHttpClient.Builder.() -> Unit): OkHttpClient.Builder {
     return OkHttpClient.Builder().also(builder)

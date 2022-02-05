@@ -1,8 +1,8 @@
 package sp.kx.okhttp
 
-import java.nio.charset.Charset
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
+import java.nio.charset.Charset
 
 object ContentType {
     private val mediaTypes: MutableMap<String, MediaType> = mutableMapOf()

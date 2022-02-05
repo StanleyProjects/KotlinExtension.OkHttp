@@ -1,10 +1,10 @@
 package sp.kx.okhttp
 
-import java.nio.charset.Charset
 import okhttp3.MediaType
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import java.nio.charset.Charset
 
 internal class ContentTypeTest {
     private fun assertEquals(type: String, subtype: String, mediaType: MediaType) {

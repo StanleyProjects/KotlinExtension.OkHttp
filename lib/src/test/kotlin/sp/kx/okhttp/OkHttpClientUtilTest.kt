@@ -1,15 +1,15 @@
 package sp.kx.okhttp
 
-import java.net.URL
-import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import java.net.URL
+import java.util.concurrent.TimeUnit
 
 internal class OkHttpClientUtilTest {
     companion object {
