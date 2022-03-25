@@ -10,21 +10,26 @@ task<Delete>("clean") {
     delete = setOf(rootProject.buildDir, "buildSrc/build")
 }
 
-task("getMavenGroupId") {
+task("saveCommonInfo") {
     doLast {
-        println(Maven.groupId)
-    }
-}
-
-task("getMavenArtifactId") {
-    doLast {
-        println(Maven.artifactId)
-    }
-}
-
-task("getVersionName") {
-    doLast {
-        println(Version.name)
+        val result = mapOf(
+            "version" to mapOf(
+                "name" to Version.name
+            ),
+            "repository" to mapOf(
+                "owner" to Repository.owner,
+                "name" to Repository.name
+            )
+        ).toList().joinToString(prefix = "{", postfix = "}") { (key, value) ->
+            "\"$key\": " + value.toList().joinToString(prefix = "{", postfix = "}") { (k, v) ->
+                "\"$k\": \"$v\""
+            }
+        }
+        File(buildDir, "common.json").also {
+            it.parentFile.mkdirs()
+            it.delete()
+            it.writeText(result)
+        }
     }
 }
 
