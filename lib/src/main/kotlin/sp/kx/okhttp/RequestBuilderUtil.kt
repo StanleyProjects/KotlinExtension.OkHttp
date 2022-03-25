@@ -49,6 +49,15 @@ fun requestBuilder(url: String, header: Pair<String, String>): Request.Builder {
     }
 }
 
+fun requestBuilder(url: String, pathSegment: String, header: Pair<String, String>): Request.Builder {
+    return requestBuilder {
+        url(httpUrl(url = url, pathSegment = pathSegment))
+
+        val (key, value) = header
+        addHeader(key, value)
+    }
+}
+
 fun requestBuilder(url: String, pathSegment: String, headers: Map<String, String>): Request.Builder {
     return requestBuilder {
         url(httpUrl(url = url, pathSegment = pathSegment))

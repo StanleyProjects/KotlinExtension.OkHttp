@@ -24,13 +24,13 @@ for ((i=0; i<SIZE; i++)); do
  fi
 done
 
-ARRAY=(UnitTest CoverageReport CoverageVerification)
+ARRAY=(test jacocoTestReport jacocoTestCoverageVerification)
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  it="${ARRAY[i]}"
- gradle -p repository lib:test$it; CODE=$?
+ gradle -p repository lib:$it; CODE=$?
  if test $CODE -ne 0; then
-  echo "gradle test lib $it error"; exit $((200+i))
+  echo "gradle lib $it error"; exit $((200+i))
  fi
 done
 
