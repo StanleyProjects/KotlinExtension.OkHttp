@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       REPOSITORY_OWNER: StanleyProjects
-      REPOSITORY_NAME: KotlinExtension.Useless
+      REPOSITORY_NAME: KotlinExtension.OkHttp
       VCS_PAT: ${{secrets.PERSONAL_ACCESS_TOKEN}}
     steps:
       - run: |
