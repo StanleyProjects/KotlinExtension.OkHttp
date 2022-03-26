@@ -1,0 +1,10 @@
+{
+  "README": {
+    "report": "analysis/readme/index.html",
+    "task": "verifyReadme"
+  },
+  "CODE_STYLE": {
+    "report": "analysis/code/style/html/index.html",
+    "task": "verifyCodeStyle"
+  }
+}
