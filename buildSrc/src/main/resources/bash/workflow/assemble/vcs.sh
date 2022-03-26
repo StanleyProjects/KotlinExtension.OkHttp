@@ -10,10 +10,9 @@ mkdir -p assemble/vcs
 
 CODE=0
 CODE=$(curl -w %{http_code} -o assemble/vcs/repository.json \
- "$VCS_DOMAIN/repos/$REPOSITORY_OWNER/$REPOSITORY_NAME" \
- -H "Authorization: token $VCS_PAT")
+ "$VCS_DOMAIN/repos/$REPOSITORY_OWNER/$REPOSITORY_NAME")
 if test $CODE -ne 200; then
- echo "Get repository ${GITLAB_PROJECT} error!"
+ echo "Get repository $REPOSITORY_NAME error!"
  echo "Request error with response code $CODE!"
  exit 21
 fi
