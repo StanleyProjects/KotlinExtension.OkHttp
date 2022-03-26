@@ -14,7 +14,7 @@ for ((i=0; i<SIZE; i++)); do
  fi
 done
 
-ARRAY=(Quality)
+ARRAY=(CodeQuality)
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  it="${ARRAY[i]}"

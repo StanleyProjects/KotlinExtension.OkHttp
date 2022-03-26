@@ -61,7 +61,7 @@ tasks.getByName<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     }
 }
 
-task<io.gitlab.arturbosch.detekt.Detekt>("verifyQuality") {
+task<io.gitlab.arturbosch.detekt.Detekt>("verifyCodeQuality") {
     val detektTask = tasks.getByName<io.gitlab.arturbosch.detekt.Detekt>("detektMain")
     jvmTarget = Version.jvmTarget
     setSource(files("src/main/kotlin", "src/test/kotlin"))
@@ -81,7 +81,7 @@ task<io.gitlab.arturbosch.detekt.Detekt>("verifyQuality") {
         txt.required.set(false)
         html {
             required.set(true)
-            outputLocation.set(File(buildDir, "reports/quality/index.html"))
+            outputLocation.set(File(buildDir, "reports/code/quality/html/index.html"))
         }
     }
     classpath.setFrom(detektTask.classpath)
