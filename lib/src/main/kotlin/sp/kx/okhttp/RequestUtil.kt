@@ -19,6 +19,10 @@ fun request(url: String, header: Pair<String, String>): Request {
     return requestBuilder(url = url, header = header).build()
 }
 
+fun request(url: String, pathSegment: String, header: Pair<String, String>): Request {
+    return requestBuilder(url = url, pathSegment = pathSegment, header = header).build()
+}
+
 fun request(url: String, pathSegment: String, headers: Map<String, String>): Request {
     return requestBuilder(url = url, pathSegment = pathSegment, headers = headers).build()
 }
