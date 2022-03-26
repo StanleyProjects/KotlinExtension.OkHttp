@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CallUtil.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lib</a> &gt; <a href="index.source.html" class="el_package">sp.kx.okhttp</a> &gt; <span class="el_source">CallUtil.kt</span></div><h1>CallUtil.kt</h1><pre class="source lang-java linenums">package sp.kx.okhttp
+
+import okhttp3.Call
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+
+fun OkHttpClient.newCall(
+    buildRequest: Request.Builder.() -&gt; Unit
+): Call {
+<span class="fc" id="L11">    return newCall(request(buildRequest))</span>
+}
+
+fun OkHttpClient.newCall(url: String): Call {
+<span class="nc" id="L15">    return newCall(request(url = url))</span>
+}
+
+fun OkHttpClient.newCall(url: String, pathSegment: String): Call {
+<span class="fc" id="L19">    return newCall(request(url = url, pathSegment = pathSegment))</span>
+}
+
+fun OkHttpClient.newCall(url: String, headers: Map&lt;String, String&gt;): Call {
+<span class="fc" id="L23">    return newCall(request(url = url, headers = headers))</span>
+}
+
+fun OkHttpClient.newCall(url: String, header: Pair&lt;String, String&gt;): Call {
+<span class="fc" id="L27">    return newCall(request(url = url, header = header))</span>
+}
+
+fun OkHttpClient.newCall(url: String, pathSegment: String, header: Pair&lt;String, String&gt;): Call {
+<span class="nc" id="L31">    return newCall(request(url = url, pathSegment = pathSegment, header = header))</span>
+}
+
+fun OkHttpClient.newCall(url: String, pathSegment: String, headers: Map&lt;String, String&gt;): Call {
+<span class="fc" id="L35">    return newCall(request(url = url, pathSegment = pathSegment, headers = headers))</span>
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;
+): Call {
+<span class="fc" id="L43">    return newCall(request(url = url, queries = queries, headers = headers))</span>
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    header: Pair&lt;String, String&gt;
+): Call {
+<span class="fc" id="L51">    return newCall(request(url = url, queries = queries, header = header))</span>
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    pathSegment: String,
+    query: Pair&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="nc" id="L62">    return newCall(</span>
+<span class="nc" id="L63">        request(</span>
+<span class="nc" id="L64">            url = url,</span>
+<span class="nc" id="L65">            pathSegment = pathSegment,</span>
+<span class="nc" id="L66">            query = query,</span>
+<span class="nc" id="L67">            headers = headers,</span>
+<span class="nc" id="L68">            method = method,</span>
+<span class="nc" id="L69">            body = body</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    pathSegment: String,
+    query: Pair&lt;String, String&gt;,
+    header: Pair&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="nc" id="L82">    return newCall(</span>
+<span class="nc" id="L83">        request(</span>
+<span class="nc" id="L84">            url = url,</span>
+<span class="nc" id="L85">            pathSegment = pathSegment,</span>
+<span class="nc" id="L86">            query = query,</span>
+<span class="nc" id="L87">            header = header,</span>
+<span class="nc" id="L88">            method = method,</span>
+<span class="nc" id="L89">            body = body</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    query: Pair&lt;String, String&gt;,
+    header: Pair&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="nc" id="L101">    return newCall(</span>
+<span class="nc" id="L102">        request(</span>
+<span class="nc" id="L103">            url = url,</span>
+<span class="nc" id="L104">            query = query,</span>
+<span class="nc" id="L105">            header = header,</span>
+<span class="nc" id="L106">            method = method,</span>
+<span class="nc" id="L107">            body = body</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="fc" id="L119">    return newCall(</span>
+<span class="fc" id="L120">        request(</span>
+<span class="fc" id="L121">            url = url,</span>
+<span class="fc" id="L122">            queries = queries,</span>
+<span class="fc" id="L123">            headers = headers,</span>
+<span class="fc" id="L124">            method = method,</span>
+<span class="fc" id="L125">            body = body</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;,
+    method: Method
+): Call {
+<span class="fc" id="L136">    return newCall(</span>
+<span class="fc" id="L137">        request(</span>
+<span class="fc" id="L138">            url = url,</span>
+<span class="fc" id="L139">            queries = queries,</span>
+<span class="fc" id="L140">            headers = headers,</span>
+<span class="fc" id="L141">            method = method</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="fc" id="L151">    return newCall(</span>
+<span class="fc" id="L152">        request(</span>
+<span class="fc" id="L153">            url = url,</span>
+<span class="fc" id="L154">            method = method,</span>
+<span class="fc" id="L155">            body = body</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    headers: Map&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="fc" id="L166">    return newCall(</span>
+<span class="fc" id="L167">        request(</span>
+<span class="fc" id="L168">            url = url,</span>
+<span class="fc" id="L169">            headers = headers,</span>
+<span class="fc" id="L170">            method = method,</span>
+<span class="fc" id="L171">            body = body</span>
+        )
+    )
+}
+
+fun OkHttpClient.newCall(
+    url: String,
+    header: Pair&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Call {
+<span class="fc" id="L182">    return newCall(</span>
+<span class="fc" id="L183">        request(</span>
+<span class="fc" id="L184">            url = url,</span>
+<span class="fc" id="L185">            header = header,</span>
+<span class="fc" id="L186">            method = method,</span>
+<span class="fc" id="L187">            body = body</span>
+        )
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

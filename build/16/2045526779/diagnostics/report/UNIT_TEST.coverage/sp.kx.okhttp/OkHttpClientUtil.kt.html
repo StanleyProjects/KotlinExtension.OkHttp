@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OkHttpClientUtil.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lib</a> &gt; <a href="index.source.html" class="el_package">sp.kx.okhttp</a> &gt; <span class="el_source">OkHttpClientUtil.kt</span></div><h1>OkHttpClientUtil.kt</h1><pre class="source lang-java linenums">package sp.kx.okhttp
+
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import java.util.concurrent.TimeUnit
+
+fun okHttpClientBuilder(builder: OkHttpClient.Builder.() -&gt; Unit): OkHttpClient.Builder {
+<span class="fc" id="L9">    return OkHttpClient.Builder().also(builder)</span>
+}
+
+fun okHttpClient(builder: OkHttpClient.Builder.() -&gt; Unit): OkHttpClient {
+<span class="fc" id="L13">    return okHttpClientBuilder(builder).build()</span>
+}
+
+fun okHttpClient(
+    connectTimeout: Pair&lt;Long, TimeUnit&gt;,
+    readTimeout: Pair&lt;Long, TimeUnit&gt;,
+    writeTimeout: Pair&lt;Long, TimeUnit&gt;,
+    interceptor: (Interceptor.Chain) -&gt; Response
+): OkHttpClient {
+<span class="fc" id="L22">    return okHttpClient {</span>
+<span class="fc" id="L23">        connectTimeout(connectTimeout.first, connectTimeout.second)</span>
+<span class="fc" id="L24">        readTimeout(readTimeout.first, readTimeout.second)</span>
+<span class="fc" id="L25">        writeTimeout(writeTimeout.first, writeTimeout.second)</span>
+<span class="fc" id="L26">        addInterceptor(interceptor)</span>
+<span class="fc" id="L27">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

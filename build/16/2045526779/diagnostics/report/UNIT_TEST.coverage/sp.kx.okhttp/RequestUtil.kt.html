@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestUtil.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lib</a> &gt; <a href="index.source.html" class="el_package">sp.kx.okhttp</a> &gt; <span class="el_source">RequestUtil.kt</span></div><h1>RequestUtil.kt</h1><pre class="source lang-java linenums">package sp.kx.okhttp
+
+import okhttp3.Request
+import okhttp3.RequestBody
+
+fun request(builder: Request.Builder.() -&gt; Unit): Request {
+<span class="fc" id="L7">    return Request.Builder().also(builder).build()</span>
+}
+
+fun request(url: String): Request {
+<span class="nc" id="L11">    return requestBuilder(url = url).build()</span>
+}
+
+fun request(url: String, pathSegment: String): Request {
+<span class="fc" id="L15">    return requestBuilder(url = url, pathSegment = pathSegment).build()</span>
+}
+
+fun request(url: String, headers: Map&lt;String, String&gt;): Request {
+<span class="fc" id="L19">    return requestBuilder(url = url, headers = headers).build()</span>
+}
+
+fun request(url: String, header: Pair&lt;String, String&gt;): Request {
+<span class="fc" id="L23">    return requestBuilder(url = url, header = header).build()</span>
+}
+
+fun request(url: String, pathSegment: String, header: Pair&lt;String, String&gt;): Request {
+<span class="nc" id="L27">    return requestBuilder(url = url, pathSegment = pathSegment, header = header).build()</span>
+}
+
+fun request(url: String, pathSegment: String, headers: Map&lt;String, String&gt;): Request {
+<span class="fc" id="L31">    return requestBuilder(url = url, pathSegment = pathSegment, headers = headers).build()</span>
+}
+
+fun request(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;
+): Request {
+<span class="fc" id="L39">    return requestBuilder(url = url, queries = queries, headers = headers).build()</span>
+}
+
+fun request(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    header: Pair&lt;String, String&gt;
+): Request {
+<span class="fc" id="L47">    return requestBuilder(url = url, queries = queries, header = header).build()</span>
+}
+
+fun request(
+    url: String,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="fc" id="L55">    return requestBuilder(</span>
+<span class="fc" id="L56">        url = url,</span>
+<span class="fc" id="L57">        method = method,</span>
+<span class="fc" id="L58">        body = body</span>
+<span class="fc" id="L59">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    headers: Map&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="fc" id="L68">    return requestBuilder(</span>
+<span class="fc" id="L69">        url = url,</span>
+<span class="fc" id="L70">        headers = headers,</span>
+<span class="fc" id="L71">        method = method,</span>
+<span class="fc" id="L72">        body = body</span>
+<span class="fc" id="L73">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    header: Pair&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="fc" id="L82">    return requestBuilder(</span>
+<span class="fc" id="L83">        url = url,</span>
+<span class="fc" id="L84">        header = header,</span>
+<span class="fc" id="L85">        method = method,</span>
+<span class="fc" id="L86">        body = body</span>
+<span class="fc" id="L87">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    pathSegment: String,
+    query: Pair&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="nc" id="L98">    return requestBuilder(</span>
+<span class="nc" id="L99">        url = url,</span>
+<span class="nc" id="L100">        pathSegment = pathSegment,</span>
+<span class="nc" id="L101">        query = query,</span>
+<span class="nc" id="L102">        headers = headers,</span>
+<span class="nc" id="L103">        method = method,</span>
+<span class="nc" id="L104">        body = body</span>
+<span class="nc" id="L105">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    pathSegment: String,
+    query: Pair&lt;String, String&gt;,
+    header: Pair&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="nc" id="L116">    return requestBuilder(</span>
+<span class="nc" id="L117">        url = url,</span>
+<span class="nc" id="L118">        pathSegment = pathSegment,</span>
+<span class="nc" id="L119">        query = query,</span>
+<span class="nc" id="L120">        header = header,</span>
+<span class="nc" id="L121">        method = method,</span>
+<span class="nc" id="L122">        body = body</span>
+<span class="nc" id="L123">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    query: Pair&lt;String, String&gt;,
+    header: Pair&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="nc" id="L133">    return requestBuilder(</span>
+<span class="nc" id="L134">        url = url,</span>
+<span class="nc" id="L135">        query = query,</span>
+<span class="nc" id="L136">        header = header,</span>
+<span class="nc" id="L137">        method = method,</span>
+<span class="nc" id="L138">        body = body</span>
+<span class="nc" id="L139">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;,
+    method: Method,
+    body: RequestBody
+): Request {
+<span class="fc" id="L149">    return requestBuilder(</span>
+<span class="fc" id="L150">        url = url,</span>
+<span class="fc" id="L151">        queries = queries,</span>
+<span class="fc" id="L152">        headers = headers,</span>
+<span class="fc" id="L153">        method = method,</span>
+<span class="fc" id="L154">        body = body</span>
+<span class="fc" id="L155">    ).build()</span>
+}
+
+fun request(
+    url: String,
+    queries: Map&lt;String, String&gt;,
+    headers: Map&lt;String, String&gt;,
+    method: Method
+): Request {
+<span class="fc" id="L164">    return requestBuilder(</span>
+<span class="fc" id="L165">        url = url,</span>
+<span class="fc" id="L166">        queries = queries,</span>
+<span class="fc" id="L167">        headers = headers,</span>
+<span class="fc" id="L168">        method = method</span>
+<span class="fc" id="L169">    ).build()</span>
+}
+
+fun Request.newBuilder(builder: Request.Builder.() -&gt; Unit): Request.Builder {
+<span class="fc" id="L173">    return newBuilder().also(builder)</span>
+}
+
+fun Request.clone(builder: Request.Builder.() -&gt; Unit): Request {
+<span class="fc" id="L177">    return newBuilder(builder).build()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

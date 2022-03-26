@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultipartBodyUtil.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lib</a> &gt; <a href="index.source.html" class="el_package">sp.kx.okhttp</a> &gt; <span class="el_source">MultipartBodyUtil.kt</span></div><h1>MultipartBodyUtil.kt</h1><pre class="source lang-java linenums">package sp.kx.okhttp
+
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+
+fun multipartBodyBuilder(
+    builder: MultipartBody.Builder.() -&gt; Unit
+): MultipartBody.Builder {
+<span class="fc" id="L11">    return MultipartBody.Builder().also(builder)</span>
+}
+
+fun formDataBuilder(
+    key: String,
+    filename: String,
+    body: RequestBody
+): MultipartBody.Builder {
+<span class="nc" id="L19">    return multipartBodyBuilder {</span>
+<span class="nc" id="L20">        setType(MultipartBody.FORM)</span>
+<span class="nc" id="L21">        addFormDataPart(name = key, filename = filename, body = body)</span>
+<span class="nc" id="L22">    }</span>
+}
+
+<span class="nc" id="L25">fun formDataBuilder(</span>
+    key: String,
+    file: File,
+<span class="nc" id="L28">    filename: String = file.name</span>
+): MultipartBody.Builder {
+<span class="nc" id="L30">    return formDataBuilder(key = key, filename = filename, file.readBytes().toRequestBody())</span>
+}
+
+<span class="nc" id="L33">fun formDataBody(</span>
+    key: String,
+    file: File,
+<span class="nc" id="L36">    filename: String = file.name</span>
+): MultipartBody {
+<span class="nc" id="L38">    return formDataBuilder(key = key, file = file, filename = filename).build()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
