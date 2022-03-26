@@ -65,16 +65,21 @@ task<io.gitlab.arturbosch.detekt.Detekt>("verifyCodeQuality") {
     val detektTask = tasks.getByName<io.gitlab.arturbosch.detekt.Detekt>("detektMain")
     jvmTarget = Version.jvmTarget
     setSource(files("src/main/kotlin", "src/test/kotlin"))
-    config.setFrom(File(rootDir, "buildSrc/src/main/resources/detekt/config/potential-bugs.yml"))
-    // todo comments
-    // todo complexity
-    // todo coroutines
-    // todo empty-blocks
-    // todo exceptions
-    // todo formatting
-    // todo naming
-    // todo performance
-    // todo style
+    val configs = setOf(
+        "common",
+        "comments",
+        "complexity",
+        "coroutines",
+        "empty-blocks",
+        "exceptions",
+        "naming",
+        "performance",
+        "potential-bugs",
+        "style"
+    ).map {
+        File(rootDir, "buildSrc/src/main/resources/detekt/config/$it.yml").existing()
+    }
+    config.setFrom(configs)
     reports {
         xml.required.set(false)
         sarif.required.set(false)

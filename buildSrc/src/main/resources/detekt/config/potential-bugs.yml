@@ -1,14 +1,5 @@
 # 2022/03/25
 
-build:
-  maxIssues: 0
-
-processors:
-  active: false
-
-console-reports:
-  active: false
-
 potential-bugs:
   active: true
   AvoidReferentialEquality:
