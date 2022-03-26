@@ -2,7 +2,7 @@
 
 echo "Pipeline diagnostics start..."
 
-mkdir -p diagnostics || exit 1 # todo
+mkdir -p diagnostics/report || exit 1 # todo
 echo "{\"types\":[]}" > diagnostics/summary.json
 
 CODE=0
@@ -15,7 +15,6 @@ for ((i=0; i<SIZE; i++)); do
  TASK="$(jq -Mcer ".${TYPE}.task" $ENVIRONMENT)" || exit 1 # todo
  gradle -p repository "$TASK"; CODE=$?
  if test $CODE -ne 0; then
-  mkdir -p diagnostics/report/$TYPE || exit 1 # todo
   cp -r repository/$(jq -Mcer ".${TYPE}.report" $ENVIRONMENT) diagnostics/report/$TYPE || exit 1 # todo
   echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
  fi
@@ -25,7 +24,6 @@ ENVIRONMENT=repository/buildSrc/src/main/resources/json/unit_test.json
 TYPE="UNIT_TEST"
 gradle -p repository "$(jq -Mcer ".${TYPE}.task" $ENVIRONMENT)"; CODE=$?
 if test $CODE -ne 0; then
- mkdir -p diagnostics/report/$TYPE || exit 1 # todo
  cp -r repository/$(jq -Mcer ".${TYPE}.report" $ENVIRONMENT) diagnostics/report/$TYPE || exit 1 # todo
  echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
 else
@@ -33,7 +31,6 @@ else
  gradle -p repository "$(jq -Mcer ".${TYPE}.task" $ENVIRONMENT)" || exit 1 # todo
  gradle -p repository "$(jq -Mcer ".${TYPE}.verification.task" $ENVIRONMENT)"; CODE=$?
  if test $CODE -ne 0; then
-  mkdir -p diagnostics/report/$TYPE || exit 1 # todo
   cp -r repository/$(jq -Mcer ".${TYPE}.report" $ENVIRONMENT) diagnostics/report/$TYPE || exit 1 # todo
   echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
  fi
