@@ -12,11 +12,10 @@ for ((i=0; i<SIZE; i++)); do
  TYPE="${ARRAY[i]}"
  CODE=0
  TASK="$(jq -Mcer ".${TYPE}.task" $DIAGNOSTICS_FILE)" || exit 1 # todo
- echo "Task \"$TASK\" start..."
  gradle -p repository "$TASK"; CODE=$?
  if test $CODE -ne 0; then
   mkdir -p diagnostics/report/$TYPE || exit 1 # todo
-  cp repository/build/reports/$(jq -Mcer ".${TYPE}.report" $DIAGNOSTICS_FILE) diagnostics/report/$TYPE/index.html || exit $((100+i))
+  cp repository/$(jq -Mcer ".${TYPE}.report" $DIAGNOSTICS_FILE) diagnostics/report/$TYPE/index.html || exit $((100+i))
   echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
  fi
 done
