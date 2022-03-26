@@ -5,20 +5,39 @@ echo "Pipeline diagnostics start..."
 mkdir -p diagnostics || exit 1 # todo
 echo "{\"types\":[]}" > diagnostics/summary.json
 
-DIAGNOSTICS_FILE=repository/buildSrc/src/main/resources/json/diagnostics.json
-ARRAY=($(jq -Mcer ".|keys|.[]" $DIAGNOSTICS_FILE))
+CODE=0
+
+ENVIRONMENT=repository/buildSrc/src/main/resources/json/verify.json
+ARRAY=($(jq -Mcer ".|keys|.[]" $ENVIRONMENT))
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  TYPE="${ARRAY[i]}"
- CODE=0
- TASK="$(jq -Mcer ".${TYPE}.task" $DIAGNOSTICS_FILE)" || exit 1 # todo
+ TASK="$(jq -Mcer ".${TYPE}.task" $ENVIRONMENT)" || exit 1 # todo
  gradle -p repository "$TASK"; CODE=$?
  if test $CODE -ne 0; then
   mkdir -p diagnostics/report/$TYPE || exit 1 # todo
-  cp repository/$(jq -Mcer ".${TYPE}.report" $DIAGNOSTICS_FILE) diagnostics/report/$TYPE/index.html || exit $((100+i))
+  cp -r repository/$(jq -Mcer ".${TYPE}.report" $ENVIRONMENT) diagnostics/report/$TYPE || exit 1 # todo
   echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
  fi
 done
+
+ENVIRONMENT=repository/buildSrc/src/main/resources/json/unit_test.json
+TYPE="UNIT_TEST"
+gradle -p repository "$(jq -Mcer ".${TYPE}.task" $ENVIRONMENT)"; CODE=$?
+if test $CODE -ne 0; then
+ mkdir -p diagnostics/report/$TYPE || exit 1 # todo
+ cp -r repository/$(jq -Mcer ".${TYPE}.report" $ENVIRONMENT) diagnostics/report/$TYPE || exit 1 # todo
+ echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
+else
+ TYPE="${TYPE}.coverage"
+ gradle -p repository "$(jq -Mcer ".${TYPE}.task" $ENVIRONMENT)" || exit 1 # todo
+ gradle -p repository "$(jq -Mcer ".${TYPE}.verification.task" $ENVIRONMENT)"; CODE=$?
+ if test $CODE -ne 0; then
+  mkdir -p diagnostics/report/$TYPE || exit 1 # todo
+  cp -r repository/$(jq -Mcer ".${TYPE}.report" $ENVIRONMENT) diagnostics/report/$TYPE || exit 1 # todo
+  echo "$(jq -cM ".types+=[\"$TYPE\"]" diagnostics/summary.json)" > diagnostics/summary.json || exit $((100+i))
+ fi
+fi
 
 TYPES="$(jq -Mcer .types diagnostics/summary.json)" || exit 1 # todo
 if test "$TYPES" == "[]"; then
