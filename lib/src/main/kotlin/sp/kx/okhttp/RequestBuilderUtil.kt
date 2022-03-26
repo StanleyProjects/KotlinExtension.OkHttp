@@ -50,9 +50,8 @@ fun requestBuilder(url: String, header: Pair<String, String>): Request.Builder {
 }
 
 fun requestBuilder(url: String, pathSegment: String, header: Pair<String, String>): Request.Builder {
-    return requestBuilder {
+    return requestBuilder{
         url(httpUrl(url = url, pathSegment = pathSegment))
-
         val (key, value) = header
         addHeader(key, value)
     }

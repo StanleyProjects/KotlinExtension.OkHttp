@@ -81,7 +81,7 @@ task<io.gitlab.arturbosch.detekt.Detekt>("verifyCodeQuality") {
         txt.required.set(false)
         html {
             required.set(true)
-            outputLocation.set(File(buildDir, "reports/code/quality/html/index.html"))
+            outputLocation.set(File(buildDir, "reports/analysis/code/quality/html/index.html"))
         }
     }
     classpath.setFrom(detektTask.classpath)
