@@ -23,6 +23,10 @@ fun OkHttpClient.newCall(url: String, header: Pair<String, String>): Call {
     return newCall(request(url = url, header = header))
 }
 
+fun OkHttpClient.newCall(url: String, pathSegment: String, header: Pair<String, String>): Call {
+    return newCall(request(url = url, pathSegment = pathSegment, header = header))
+}
+
 fun OkHttpClient.newCall(url: String, pathSegment: String, headers: Map<String, String>): Call {
     return newCall(request(url = url, pathSegment = pathSegment, headers = headers))
 }
