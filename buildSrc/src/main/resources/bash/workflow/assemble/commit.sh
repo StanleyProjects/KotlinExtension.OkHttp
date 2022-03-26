@@ -35,6 +35,4 @@ echo "The author source $(jq -r .html_url assemble/vcs/commit/author.json) is re
 
 echo "Workflow assemble commit $GIT_COMMIT_SHA success."
 
-exit 1 # todo
-
 exit 0

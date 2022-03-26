@@ -31,16 +31,24 @@ if test "$TYPES" == "[]"; then
 fi
 COMMIT_MESSAGE="${COMMIT_MESSAGE} of ${TYPES} issues."
 
+CODE=0
 git -C $REPOSITORY config user.name "$WORKER_NAME" && \
- git -C $REPOSITORY config user.email "$WORKER_EMAIL" && \
- git -C $REPOSITORY add --all $REPOSITORY && \
+ git -C $REPOSITORY config user.email "$WORKER_EMAIL"; CODE=$?
+if test $CODE -ne 0; then
+ echo "Git config failed!"; exit 41
+fi
+
+git -C $REPOSITORY add --all . && \
  git -C $REPOSITORY commit -m "$COMMIT_MESSAGE" && \
- git -C $REPOSITORY tag "diagnostics/report/$GITHUB_RUN_NUMBER/$GITHUB_RUN_ID" && \
- git -C $REPOSITORY push -f && \
+ git -C $REPOSITORY tag "diagnostics/report/$GITHUB_RUN_NUMBER/$GITHUB_RUN_ID"; CODE=$?
+if test $CODE -ne 0; then
+ echo "Git commit failed!"; exit 42
+fi
+
+git -C $REPOSITORY push -f && \
  git -C $REPOSITORY push --tag; CODE=$?
 if test $CODE -ne 0; then
- echo "Git push failed!"
- exit 41
+ echo "Git push failed!"; exit 43
 fi
 
 echo "Workflow diagnostics report success"
