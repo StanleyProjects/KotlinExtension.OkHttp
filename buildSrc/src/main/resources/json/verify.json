@@ -1,0 +1,14 @@
+{
+  "README": {
+    "report": "build/reports/analysis/readme",
+    "task": "verifyReadme"
+  },
+  "CODE_STYLE": {
+    "report": "build/reports/analysis/code/style/html",
+    "task": "verifyCodeStyle"
+  },
+  "CODE_QUALITY": {
+    "report": "lib/build/reports/analysis/code/quality/html",
+    "task": "lib:verifyCodeQuality"
+  }
+}
