@@ -92,7 +92,10 @@ task<io.gitlab.arturbosch.detekt.Detekt>("verifyCodeQuality") {
     classpath.setFrom(detektTask.classpath)
 }
 
-"Snapshot".also { variant ->
+setOf(
+    "Snapshot",
+    "Unstable"
+).forEach { variant ->
     val versionName = Version.name + "-" + variant.toUpperCase()
     task<Jar>("assemble${variant}Jar") {
         dependsOn(compileKotlinTask)
