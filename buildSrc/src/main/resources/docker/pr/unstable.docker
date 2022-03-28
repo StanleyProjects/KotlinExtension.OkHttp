@@ -1,19 +1,18 @@
 from kepocnhh/dex-scotty:1
 
-arg VCS_PAT
 arg REPOSITORY_OWNER
 arg REPOSITORY_NAME
-arg GIT_SOURCE
 
 run mkdir -p /${REPOSITORY_OWNER}/${REPOSITORY_NAME}/repository
-
 workdir /${REPOSITORY_OWNER}/${REPOSITORY_NAME}
+
+arg VCS_PAT
+arg GIT_BRANCH_SRC
 
 run git -C repository init && \
  git -C repository remote add origin \
   https://${VCS_PAT}@github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git && \
- git -C repository fetch origin $GIT_BRANCH_DST && \
  git -C repository fetch origin $GIT_BRANCH_SRC && \
  git -C repository checkout $GIT_BRANCH_SRC
 
-cmd /bin/bash repository/buildSrc/src/main/resources/bash/workflow/verify.sh
+cmd /bin/bash repository/buildSrc/src/main/resources/bash/workflow/pr/unstable/main.sh
