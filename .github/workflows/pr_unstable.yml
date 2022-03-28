@@ -33,8 +33,8 @@ jobs:
            --build-arg REPOSITORY_OWNER=$REPOSITORY_OWNER \
            --build-arg REPOSITORY_NAME=$REPOSITORY_NAME \
            --build-arg VCS_PAT=$VCS_PAT \
-           --build-arg GIT_BRANCH_SRC=$(jq -r .pull_request.head.sha $GITHUB_EVENT_PATH) \
-           -t image.verify:$GITHUB_RUN_NUMBER \
+           --build-arg GIT_BRANCH_SRC=$(jq -r .pull_request.head.ref $GITHUB_EVENT_PATH) \
+           -t image.pr.unstable:$GITHUB_RUN_NUMBER \
            -f $BUILD_PATH/repository/buildSrc/src/main/resources/docker/pr/unstable.docker $BUILD_PATH/repository
           echo "REPOSITORY_OWNER=$REPOSITORY_OWNER" > /tmp/build${GITHUB_RUN_NUMBER}.env
           echo "REPOSITORY_NAME=$REPOSITORY_NAME" >> /tmp/build${GITHUB_RUN_NUMBER}.env
@@ -47,4 +47,4 @@ jobs:
            -e VCS_PAT=$VCS_PAT \
            -e TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN \
            --env-file /tmp/build${GITHUB_RUN_NUMBER}.env \
-           --name container.verify image.verify:$GITHUB_RUN_NUMBER
+           --name container.pr.unstable image.pr.unstable:$GITHUB_RUN_NUMBER
