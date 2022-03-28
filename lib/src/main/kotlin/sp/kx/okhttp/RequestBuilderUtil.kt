@@ -26,6 +26,12 @@ fun requestBuilder(builder: Request.Builder.() -> Unit): Request.Builder {
     return Request.Builder().also(builder)
 }
 
+fun requestBuilder(url: String): Request.Builder {
+    return requestBuilder {
+        url(url.toHttpUrl())
+    }
+}
+
 fun requestBuilder(url: String, pathSegment: String): Request.Builder {
     return requestBuilder {
         url(httpUrl(url = url, pathSegment = pathSegment))
@@ -129,6 +135,60 @@ fun requestBuilder(
 ): Request.Builder {
     return requestBuilder {
         url(url.toHttpUrl())
+        val (key, value) = header
+        addHeader(key, value)
+        when (method) {
+            Method.POST -> post(body)
+        }
+    }
+}
+
+fun requestBuilder(
+    url: String,
+    pathSegment: String,
+    query: Pair<String, String>,
+    headers: Map<String, String>,
+    method: Method,
+    body: RequestBody
+): Request.Builder {
+    return requestBuilder {
+        url(httpUrl(url = url, pathSegment = pathSegment, query = query))
+        headers.forEach { (key, value) ->
+            addHeader(key, value)
+        }
+        when (method) {
+            Method.POST -> post(body)
+        }
+    }
+}
+
+fun requestBuilder(
+    url: String,
+    pathSegment: String,
+    query: Pair<String, String>,
+    header: Pair<String, String>,
+    method: Method,
+    body: RequestBody
+): Request.Builder {
+    return requestBuilder {
+        url(httpUrl(url = url, pathSegment = pathSegment, query = query))
+        val (key, value) = header
+        addHeader(key, value)
+        when (method) {
+            Method.POST -> post(body)
+        }
+    }
+}
+
+fun requestBuilder(
+    url: String,
+    query: Pair<String, String>,
+    header: Pair<String, String>,
+    method: Method,
+    body: RequestBody
+): Request.Builder {
+    return requestBuilder {
+        url(httpUrl(url = url, query = query))
         val (key, value) = header
         addHeader(key, value)
         when (method) {

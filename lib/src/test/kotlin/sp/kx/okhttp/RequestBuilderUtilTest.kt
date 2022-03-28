@@ -148,11 +148,6 @@ internal class RequestBuilderUtilTest {
     }
 
     @Test
-    fun requestBuilderUrlPathSegmentHeaderTest() {
-        TODO()
-    }
-
-    @Test
     fun requestBuilderUrlHeadersTest() {
         val url = "https://github.com/"
         val headers = mapOf("baz" to "qux")
