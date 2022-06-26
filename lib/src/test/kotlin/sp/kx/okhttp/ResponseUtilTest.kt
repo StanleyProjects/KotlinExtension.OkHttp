@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
+import sp.kx.okhttp.util.org.junit.assertType
 
 internal class ResponseUtilTest {
     companion object {
@@ -106,7 +107,7 @@ internal class ResponseUtilTest {
         try {
             response.requireBody()
         } catch (e: Throwable) {
-            assertTrue(e is IllegalStateException)
+            e.assertType<IllegalStateException>()
             return
         }
         fail<Any?>("No throwable!")
@@ -174,7 +175,7 @@ internal class ResponseUtilTest {
         try {
             response.requireHeader("foo")
         } catch (e: Throwable) {
-            assertTrue(e is IllegalStateException)
+            e.assertType<IllegalStateException>()
             return
         }
         fail<Any?>("No throwable!")

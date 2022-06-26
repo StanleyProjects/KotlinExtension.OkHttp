@@ -11,6 +11,10 @@ fun OkHttpClient.execute(
     return newCall(buildRequest).execute()
 }
 
+fun OkHttpClient.execute(url: String): Response {
+    return newCall(url = url).execute()
+}
+
 fun OkHttpClient.execute(url: String, pathSegment: String): Response {
     return newCall(url = url, pathSegment = pathSegment).execute()
 }
@@ -29,6 +33,52 @@ fun OkHttpClient.execute(url: String, pathSegment: String, header: Pair<String, 
 
 fun OkHttpClient.execute(url: String, pathSegment: String, headers: Map<String, String>): Response {
     return newCall(url = url, pathSegment = pathSegment, headers = headers).execute()
+}
+
+fun OkHttpClient.execute(
+    url: String,
+    pathSegment: String,
+    query: Pair<String, String>,
+    header: Pair<String, String>,
+    method: Method,
+    body: RequestBody
+): Response {
+    return newCall(
+        url = url,
+        pathSegment = pathSegment,
+        query = query,
+        header = header,
+        method = method,
+        body = body
+    ).execute()
+}
+
+fun OkHttpClient.execute(
+    url: String,
+    pathSegment: String,
+    query: Pair<String, String>,
+    headers: Map<String, String>,
+    method: Method,
+    body: RequestBody
+): Response {
+    return newCall(
+        url = url,
+        pathSegment = pathSegment,
+        query = query,
+        headers = headers,
+        method = method,
+        body = body
+    ).execute()
+}
+
+fun OkHttpClient.execute(
+    url: String,
+    query: Pair<String, String>,
+    header: Pair<String, String>,
+    method: Method,
+    body: RequestBody
+): Response {
+    return newCall(url = url, query = query, header = header, method = method, body = body).execute()
 }
 
 fun OkHttpClient.execute(
