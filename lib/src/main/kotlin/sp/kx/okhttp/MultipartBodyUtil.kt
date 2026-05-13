@@ -1,9 +1,9 @@
 package sp.kx.okhttp
 
-import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 fun multipartBodyBuilder(
     builder: MultipartBody.Builder.() -> Unit
@@ -11,49 +11,29 @@ fun multipartBodyBuilder(
     return MultipartBody.Builder().also(builder)
 }
 
-fun MultipartBody.Builder.addFormDataPart(key: String, requestBody: RequestBody) {
-    addFormDataPart(key, null, requestBody)
-}
-
-fun MultipartBody.Builder.addFormDataPart(key: String, mediaType: MediaType, value: ByteArray) {
-    addFormDataPart(key, value.toRequestBody(mediaType))
-}
-
 fun formDataBuilder(
     key: String,
-    requestBody: RequestBody
+    filename: String,
+    body: RequestBody
 ): MultipartBody.Builder {
     return multipartBodyBuilder {
         setType(MultipartBody.FORM)
-        addFormDataPart(key = key, requestBody)
+        addFormDataPart(name = key, filename = filename, body = body)
     }
 }
 
 fun formDataBuilder(
     key: String,
-    mediaType: MediaType,
-    bytes: ByteArray
+    file: File,
+    filename: String = file.name
 ): MultipartBody.Builder {
-    return formDataBuilder(key = key, bytes.toRequestBody(mediaType))
-}
-
-fun multipartBody(
-    builder: MultipartBody.Builder.() -> Unit
-): MultipartBody {
-    return multipartBodyBuilder(builder).build()
+    return formDataBuilder(key = key, filename = filename, file.readBytes().toRequestBody())
 }
 
 fun formDataBody(
     key: String,
-    requestBody: RequestBody
+    file: File,
+    filename: String = file.name
 ): MultipartBody {
-    return formDataBuilder(key = key, requestBody = requestBody).build()
-}
-
-fun formDataBody(
-    key: String,
-    mediaType: MediaType,
-    bytes: ByteArray
-): MultipartBody {
-    return formDataBuilder(key = key, mediaType = mediaType, bytes = bytes).build()
+    return formDataBuilder(key = key, file = file, filename = filename).build()
 }

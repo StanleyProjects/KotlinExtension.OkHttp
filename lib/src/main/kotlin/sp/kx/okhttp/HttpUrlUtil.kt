@@ -11,6 +11,21 @@ fun HttpUrl.build(builder: HttpUrl.Builder.() -> Unit): HttpUrl {
     return newBuilder(builder).build()
 }
 
+fun httpUrl(url: String, pathSegment: String, query: Pair<String, String>): HttpUrl {
+    return url.toHttpUrl().build {
+        addPathSegment(pathSegment)
+        val (key, value) = query
+        addQueryParameter(key, value)
+    }
+}
+
+fun httpUrl(url: String, query: Pair<String, String>): HttpUrl {
+    return url.toHttpUrl().build {
+        val (key, value) = query
+        addQueryParameter(key, value)
+    }
+}
+
 fun httpUrl(url: String, queries: Map<String, String>): HttpUrl {
     return url.toHttpUrl().build {
         queries.forEach { (key, value) ->

@@ -7,6 +7,10 @@ fun request(builder: Request.Builder.() -> Unit): Request {
     return Request.Builder().also(builder).build()
 }
 
+fun request(url: String): Request {
+    return requestBuilder(url = url).build()
+}
+
 fun request(url: String, pathSegment: String): Request {
     return requestBuilder(url = url, pathSegment = pathSegment).build()
 }
@@ -77,6 +81,58 @@ fun request(
 ): Request {
     return requestBuilder(
         url = url,
+        header = header,
+        method = method,
+        body = body
+    ).build()
+}
+
+fun request(
+    url: String,
+    pathSegment: String,
+    query: Pair<String, String>,
+    headers: Map<String, String>,
+    method: Method,
+    body: RequestBody
+): Request {
+    return requestBuilder(
+        url = url,
+        pathSegment = pathSegment,
+        query = query,
+        headers = headers,
+        method = method,
+        body = body
+    ).build()
+}
+
+fun request(
+    url: String,
+    pathSegment: String,
+    query: Pair<String, String>,
+    header: Pair<String, String>,
+    method: Method,
+    body: RequestBody
+): Request {
+    return requestBuilder(
+        url = url,
+        pathSegment = pathSegment,
+        query = query,
+        header = header,
+        method = method,
+        body = body
+    ).build()
+}
+
+fun request(
+    url: String,
+    query: Pair<String, String>,
+    header: Pair<String, String>,
+    method: Method,
+    body: RequestBody
+): Request {
+    return requestBuilder(
+        url = url,
+        query = query,
         header = header,
         method = method,
         body = body
